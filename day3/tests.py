@@ -1,3 +1,4 @@
+import d3p1v2
 import d3p1
 import unittest
 
@@ -8,7 +9,7 @@ class TestDay3Part1Methods(unittest.TestCase):
         # expect 2 pieces to overlap
         print("running test 1...")
         print("exoect 2 pieces to overlap")
-        d3p1.main("d3s1.txt")
+        d3p1v2.main("d3s1.txt")
         print()
         print()
 
@@ -17,7 +18,7 @@ class TestDay3Part1Methods(unittest.TestCase):
         # expect no pieces to overlap
         print("running test 2...")
         print("expect 0 pieces to overlap")
-        d3p1.main("d3s2.txt")
+        d3p1v2.main("d3s2.txt")
         print()
         print()
 
@@ -25,7 +26,7 @@ class TestDay3Part1Methods(unittest.TestCase):
         # expect 2 pieces to overlap
         print("running test 3...")
         print("expect 2 pieces to overlap")
-        d3p1.main("d3s3.txt")
+        d3p1v2.main("d3s3.txt")
         print()
         print()
 
@@ -34,7 +35,7 @@ class TestDay3Part1Methods(unittest.TestCase):
         # expect 3 pieces to overlap
         print("running test 4...")
         print("expect 3 pieces to overlap")
-        d3p1.main("d3s4.txt")
+        d3p1v2.main("d3s4.txt")
         print()
         print()
 
