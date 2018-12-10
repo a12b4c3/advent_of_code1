@@ -1,27 +1,43 @@
 import d3p1
 import unittest
 
+
 class TestDay3Part1Methods(unittest.TestCase):
 
     def test_1(self):
         # expect 2 pieces to overlap
-        d3p1.main("C:\\advent_of_code\\day3\\d3s1.txt")
         print("running test 1...")
+        print("exoect 2 pieces to overlap")
+        d3p1.main("d3s1.txt")
+        print()
+        print()
+
 
     def test_2(self):
         # expect no pieces to overlap
-        d3p1.main("C:\\advent_of_code\\day3\\d3s2.txt")
         print("running test 2...")
+        print("expect 0 pieces to overlap")
+        d3p1.main("d3s2.txt")
+        print()
+        print()
 
     def test_3(self):
-        # expect 5 pieces to overlap
-        d3p1.main("C:\\advent_of_code\\day3\\d3s3.txt")
+        # expect 2 pieces to overlap
         print("running test 3...")
+        print("expect 2 pieces to overlap")
+        d3p1.main("d3s3.txt")
+        print()
+        print()
+
 
     def test_4(self):
         # expect 3 pieces to overlap
-        d3p1.main("C:\\advent_of_code\\day3\\d3s4.txt")
         print("running test 4...")
+        print("expect 3 pieces to overlap")
+        d3p1.main("d3s4.txt")
+        print()
+        print()
+
 
     def test_overlap_checker(self):
         #no overlap adjacent
