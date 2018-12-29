@@ -1,95 +1,77 @@
 import re
 
-# fill in filepath here
 filepath = "day3problem.txt"
+problem_list = list()
 
-# problemArray is a list that should have the following...
-    # id number
-    # top left corner coordinate
-    # rectangle dims
-problemArray = list([])
-
-# overlapArray is a boolean array that tracks whether an ID is already overlapping with some other cloth...
-# boolean array of length n, where n is the number of IDs
-
-
-def main(path):
-    filepath = path
+def main(filepath):
     file_handler(filepath)
-    problem_solver()
+    conflict_list = problem_solver()
+    print(conflict_list)
+    print(sum(conflict_list))
+    find_negative(conflict_list)
 
-
-#   problemArray[?] where ? is 0 to n, is the id of the request
-#   problemArray[?][x] where x is 0 to 4, is the parameter
-#   x = 0, represents the id of the request
-#   x = 1, represents the x axis of the top left corner
-#   x = 2, represents the y axis of the top left corner
-#   x = 3, represents the width of the cloth
-#   x = 4, represents the height of the cloth
-#   eg. problemArray[2][4] returns the height of the 3rd cloth request.
 
 def file_handler(filepath):
-    with open(filepath, "r") as problemFile:
-        for line in problemFile:
-            line = line.rstrip()
-            clothRequest = reg_ex_parsing(line)
-            problemArray.append(clothRequest)
+    with open(filepath,"r") as problem_file:
+        for entry in problem_file:
+            entry = entry.rstrip()
+            entry_list = reg_ex_parsing(entry)
+            problem_list.append(entry_list)
 
 
 def reg_ex_parsing(line):
     regex = "#(\d*)\s@\s(\d*),(\d*):\s(\d*)x(\d*)"
-    entry = re.search(regex, line).groups()
+    entry = re.match(regex, line).groups()
     return entry
 
 
 def problem_solver():
-    overlapped_requests = [False] * (len(problemArray) + 1)
-    for cloth_request in problemArray:
-        x1_1 = int(cloth_request[1])
-        y1_1 = int(cloth_request[2])
-        x2_1 = int(cloth_request[1]) + int(cloth_request[3])
-        y2_1 = int(cloth_request[2]) + int(cloth_request[4])
-        for idx, other_cloths in enumerate(problemArray):
-            if other_cloths[0] == cloth_request[0]:
-                continue
-            else:
-                x1_2 = int(problemArray[idx][1])
-                y1_2 = int(problemArray[idx][2])
-                x2_2 = int(problemArray[idx][1]) + int(problemArray[idx][3])
-                y2_2 = int(problemArray[idx][2]) + int(problemArray[idx][4])
-                r1r2_overlap = overlap_checker(x1_1, y1_1,x2_1, y2_1, x1_2, y1_2, x2_2, y2_2)
-                if r1r2_overlap:
-                    # print(cloth_request[0] + " is colliding with " + other_cloths[0])
-                    overlapped_requests[int(cloth_request[0])] = True
-                    break
-
-    overlapping_cloth_counter(overlapped_requests)
+    conflict_list = list()
+    for item_number, request in enumerate(problem_list):
+        conflict = check_for_conflicts(request, item_number)
+        conflict_list.append(False)
+        if conflict:
+            conflict_list[-1] = True
+            continue
+    return conflict_list
 
 
-#   int int int int int int int int -> Boolean
-#   returns true if squares overlap, false otherwise.
+def check_for_conflicts(request, item_number):
+    for idx, other_request in enumerate(problem_list):
+        if idx == item_number:
+            continue
+        else:
+            r1_x1 = int(request[1])
+            r1_y1 = int(request[2])
+            r1_x2 = int(request[1]) + int(request[3])
+            r1_y2 = int(request[2]) + int(request[4])
 
-def overlap_checker(x1_1, y1_1, x2_1, y2_1, x1_2, y1_2, x2_2, y2_2):
-    # r1 totally on top of r2
-    bool1 = y2_1 <= y1_2
-    # r1 totally on bottom of r2
-    bool2 = y2_2 <= y1_1
-    # r1 totally on left of r2
-    bool3 = x2_1 <= x1_2
-    # r1 totally on right of r2
-    bool4 = x2_2 <= x1_1
-    return not (bool1 or bool2 or bool3 or bool4)
+            r2_x1 = int(other_request[1])
+            r2_y1 = int(other_request[2])
+            r2_x2 = int(other_request[1]) + int(other_request[3])
+            r2_y2 = int(other_request[2]) + int(other_request[4])
+
+            r2_left_of_r1 = r2_x1 >= r1_x2
+            r1_left_of_r2 = r1_x1 >= r2_x2
+            r2_top_of_r1 = r2_y2 <= r1_y1
+            r1_top_of_r2 = r1_y2 <= r2_y1
+
+            conflict_bool = not (r2_left_of_r1 or r1_left_of_r2 or r2_top_of_r1 or r1_top_of_r2)
+
+            if conflict_bool:
+                return True
 
 
-def overlapping_cloth_counter(overlapped_requests):
+def find_negative(conflicts):
     counter = 0
-    total = 0
-    print(overlapped_requests)
-    for ele in overlapped_requests:
-        total += 1
-        if ele == True:
-            counter += 1
-    print(str(counter) + " / " + str(total-1))
+    for value in conflicts:
+        print(value)
+        counter += 1
+        if value is False:
+            print(counter)
+            print("found")
+            exit()
+
 
 
 if __name__ == "__main__":
