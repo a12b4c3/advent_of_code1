@@ -1,4 +1,4 @@
-'1518-02-26 23:59', 'Guard #571 begins shift'
+﻿'1518-02-26 23:59', 'Guard #571 begins shift'
 '1518-02-27 00:17', 'falls asleep'
 '1518-02-27 00:51', 'wakes up'
 '1518-02-27 00:56', 'falls asleep'
